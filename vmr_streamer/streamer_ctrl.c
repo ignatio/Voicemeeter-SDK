@@ -447,6 +447,7 @@ static void DrawSTRIP_Slider(LPT_VMSCTL_STRIPCTX lpobject, HDC dc, long nuVisibl
 	rect2.top =rect2.bottom-yy-cursor_height;
 	rect2.bottom = rect2.top+cursor_height;
 	sprintf(sss,"%0.1f", dBValue);
+
 	DrawText(dcmem,sss,(long)strlen(sss),&rect2,DT_SINGLELINE | DT_VCENTER | DT_CENTER);
 
 	SelectObject(dcmem,oldpen);
