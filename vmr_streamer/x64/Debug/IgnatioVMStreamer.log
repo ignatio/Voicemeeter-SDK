@@ -1,0 +1,16 @@
+﻿  streamer_ctrl.c
+M:\repos\vm streamer\IgnatioVMStreamer\streamer_ctrl.c(415,37): warning C4047: '=': 'HBRUSH' differs in levels of indirection from 'COLORREF'
+M:\repos\vm streamer\IgnatioVMStreamer\streamer_ctrl.c(844,1): warning C4312: 'type cast': conversion from 'long' to 'HMENU' of greater size
+M:\repos\vm streamer\IgnatioVMStreamer\streamer_ctrl.c(897,24): warning C4101: 'lpdata': unreferenced local variable
+M:\repos\vm streamer\IgnatioVMStreamer\streamer_ctrl.c(1352,37): warning C4047: '=': 'HBRUSH' differs in levels of indirection from 'COLORREF'
+M:\repos\vm streamer\IgnatioVMStreamer\streamer_ctrl.c(1458,28): warning C4133: '=': incompatible types - from 'T_VMSCTL_BUS_DATA *' to 'PT_VMSCTL_STRIP_DATA'
+M:\repos\vm streamer\IgnatioVMStreamer\streamer_ctrl.c(1463,58): warning C4047: 'function': 'long' differs in levels of indirection from 'char [8]'
+M:\repos\vm streamer\IgnatioVMStreamer\streamer_ctrl.c(1463,37): warning C4024: 'DrawBUS_Slider': different types for formal and actual parameter 3
+M:\repos\vm streamer\IgnatioVMStreamer\streamer_ctrl.c(1553,28): warning C4133: '=': incompatible types - from 'T_VMSCTL_BUS_DATA *' to 'LPT_VMSCTL_STRIP_DATA'
+M:\repos\vm streamer\IgnatioVMStreamer\streamer_ctrl.c(1568,59): warning C4047: 'function': 'long' differs in levels of indirection from 'char [8]'
+M:\repos\vm streamer\IgnatioVMStreamer\streamer_ctrl.c(1568,38): warning C4024: 'DrawBUS_Slider': different types for formal and actual parameter 3
+M:\repos\vm streamer\IgnatioVMStreamer\streamer_ctrl.c(1584,28): warning C4133: '=': incompatible types - from 'T_VMSCTL_BUS_DATA *' to 'LPT_VMSCTL_STRIP_DATA'
+M:\repos\vm streamer\IgnatioVMStreamer\streamer_ctrl.c(1608,61): warning C4047: 'function': 'long' differs in levels of indirection from 'char [8]'
+M:\repos\vm streamer\IgnatioVMStreamer\streamer_ctrl.c(1608,40): warning C4024: 'DrawBUS_Slider': different types for formal and actual parameter 3
+M:\repos\vm streamer\IgnatioVMStreamer\streamer_ctrl.c(1752,1): warning C4312: 'type cast': conversion from 'long' to 'HMENU' of greater size
+  IgnatioVMStreamer.vcxproj -> M:\repos\vm streamer\IgnatioVMStreamer\x64\Debug\IgnatioVMStreamer.exe

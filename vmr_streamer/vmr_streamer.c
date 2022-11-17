@@ -405,29 +405,32 @@ long InitResources(LPT_APP_CONTEXT lpapp)
 
 	//make Font
 	memset(&lf,0, sizeof(LOGFONT));
-	lf.lfHeight	= 14;
+	lf.lfHeight	= 18;
 	lf.lfWeight	= 400;
-	strcpy(lf.lfFaceName,"Arial");
+	strcpy(lf.lfFaceName,"Dubai");
 	lpapp->font0 =CreateFontIndirect(&lf);
 
-	lf.lfHeight	= 16;
+	lf.lfHeight	= 20;
 	lf.lfWeight	= 400;
-	strcpy(lf.lfFaceName,"Arial");
+	strcpy(lf.lfFaceName,"Dubai");
 	lpapp->font1 =CreateFontIndirect(&lf);
 
-	lf.lfHeight	= 18;
+	lf.lfHeight	= 28;
 	lf.lfWeight	= 600;
-	strcpy(lf.lfFaceName,"Arial");
+	strcpy(lf.lfFaceName,"Dubai");
 	lpapp->font2 =CreateFontIndirect(&lf);
 	
 	//make pen brush 
+	/*ORIGINAL
 	CreateColorPenBrush(&(lpapp->gdiobjects_black), RGB(0,0,0));
 	CreateColorPenBrush(&(lpapp->gdiobjects_bkg), RGB(18,32,41));
 	CreateColorPenBrush(&(lpapp->gdiobjects_bkg_ctl), RGB(44,61,77));
+
 	CreateColorPenBrush(&(lpapp->gdiobjects_blue0), RGB(71,90,103));
 	CreateColorPenBrush(&(lpapp->gdiobjects_blue1), RGB(95,120,137));
 	CreateColorPenBrush(&(lpapp->gdiobjects_blue2), RGB(111,140,160));
 	CreateColorPenBrush(&(lpapp->gdiobjects_blue3), RGB(104,230,248));
+
 	CreateColorPenBrush(&(lpapp->gdiobjects_buttongreen), RGB(36,167,49));
 	CreateColorPenBrush(&(lpapp->gdiobjects_slidergreen), RGB(112,195,153));
 	CreateColorPenBrush(&(lpapp->gdiobjects_sliderred), RGB(248,99,77));
@@ -435,6 +438,30 @@ long InitResources(LPT_APP_CONTEXT lpapp)
 
 	CreateColorPenBrush(&(lpapp->gdiobjects_meter_blue), RGB(130,170,180));
 	CreateColorPenBrush(&(lpapp->gdiobjects_meter_green), RGB(30,255,90));
+	CreateColorPenBrush(&(lpapp->gdiobjects_meter_red), RGB(250,0,0));
+
+	CreateColorPenBrush(&(lpapp->gdiobjects_mute), RGB(246,91,81));
+	CreateColorPenBrush(&(lpapp->gdiobjects_monitor), RGB(203,174,130));
+	CreateColorPenBrush(&(lpapp->gdiobjects_grey), RGB(100,100,100));
+	*/
+
+
+	CreateColorPenBrush(&(lpapp->gdiobjects_black), RGB(0,0,0));
+	CreateColorPenBrush(&(lpapp->gdiobjects_bkg), RGB(18, 18, 18)); //main background
+	CreateColorPenBrush(&(lpapp->gdiobjects_bkg_ctl), RGB(44, 44, 44)); //panel background
+
+	CreateColorPenBrush(&(lpapp->gdiobjects_blue0), RGB(88, 88, 88));
+	CreateColorPenBrush(&(lpapp->gdiobjects_blue1), RGB(120, 120, 120));
+	CreateColorPenBrush(&(lpapp->gdiobjects_blue2), RGB(160, 160, 160));
+	CreateColorPenBrush(&(lpapp->gdiobjects_blue3), RGB(210, 210, 210));
+
+	CreateColorPenBrush(&(lpapp->gdiobjects_buttongreen), RGB(0, 0, 0)); //cant see what this does
+	CreateColorPenBrush(&(lpapp->gdiobjects_slidergreen), RGB(80, 220, 100)); // sliders and control buttons
+	CreateColorPenBrush(&(lpapp->gdiobjects_sliderred), RGB(255,99,77)); // sliders and control buttons
+	CreateColorPenBrush(&(lpapp->gdiobjects_white), RGB(255,255,255));
+
+	CreateColorPenBrush(&(lpapp->gdiobjects_meter_blue), RGB(80,255,100)); // change to green
+	CreateColorPenBrush(&(lpapp->gdiobjects_meter_green), RGB(242,224,0)); //change to yellow
 	CreateColorPenBrush(&(lpapp->gdiobjects_meter_red), RGB(250,0,0));
 
 	CreateColorPenBrush(&(lpapp->gdiobjects_mute), RGB(246,91,81));

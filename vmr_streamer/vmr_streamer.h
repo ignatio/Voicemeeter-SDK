@@ -4,8 +4,8 @@
 /* 'C' Sample Code to make a Voicemeeter Custom GUI          V.Burel (c)2016-2021 */
 /*                                                                                */
 /*  THIS PROGRAM PROVIDES A GUI TO CONTROL VOICEMEETER                            */
-/*               PROVIDES A SIMPLIFIED GUI WITH ONLY USED STRIP/BUS               */
-/*               PROVIDES A RESIZABLE GRAPHIC USER INTERFACE                      */
+/*               PROVIDES A SIMPLIFIED GUI WITH ONLY USED STRIP/BUS               */   
+/*               PROVIDES A RESIZABLE GRAPHIC USER INTERFACE                      */   
 /*                                                                                */
 /*  This program example shows                                                    */
 /*  - How to link VoicemeeterRemote.dll                                           */
@@ -41,18 +41,18 @@
 #define APP_UNIQUEMUTEX "VB-AudioVMRStreamerViewExample_VoicemeeterCustomGUI" 
 
 //version information (for program)
-#define SZPUBLICVERSION		"1.0.0.2"			//displayed version in about box
-#define SZPUBLICNAME		"VM-Streamer View (Voicemeeter Custom GUI Example)"	//displayed title in main window 
+#define SZPUBLICVERSION		"1.0.0.1"			//displayed version in about box
+#define SZPUBLICNAME		"VM-Streamer View (Ignatio Custom GUI)"	//displayed title in main window 
 
 //Information for Main window 
 #define UI_WIN_DX	800
 #define UI_WIN_DY	600
 
 //version information (used in resource file)
-#define __FILEVERSION__			1,0,0,2
-#define __PRODUCTVERSION__		1,0,0,2
-#define __SZFILEVERSION__		"1, 0, 0, 2\0"
-#define __SZPRODUCTVERSION__	"1, 0, 0, 2\0"
+#define __FILEVERSION__			1,0,0,1
+#define __PRODUCTVERSION__		1,0,0,1
+#define __SZFILEVERSION__		"1, 0, 0, 1\0"
+#define __SZPRODUCTVERSION__	"1, 0, 0, 1\0"
  
 	#define __COMMENTS__			"Example of custom GUI mae for Voicemeeter with the Voicemeeter Remote API"
 	#define __COMPANYNAME__			"Audio Mechanic & Sound Breeder\0"

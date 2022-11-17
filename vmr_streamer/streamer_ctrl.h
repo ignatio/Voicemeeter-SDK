@@ -33,7 +33,7 @@ extern "C" {
 #endif
 
 // if compiling for x64 target define this
-//#define VB_X64
+#define VB_X64
 	
 
 #define VMSCTL_MAX_NBSTRIP	8
