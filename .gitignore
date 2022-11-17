@@ -1,4 +1,7 @@
-
+vmr_streamer/IgnatioVMStreamer.sln
+vmr_streamer/IgnatioVMStreamer.vcxproj
+vmr_streamer/IgnatioVMStreamer.vcxproj.filters
+vmr_streamer/IgnatioVMStreamer.vcxproj.user
 vmr_streamer/Debug/IgnatioV.6dac0be2.tlog/CL.command.1.tlog
 vmr_streamer/Debug/IgnatioV.6dac0be2.tlog/CL.read.1.tlog
 vmr_streamer/Debug/IgnatioV.6dac0be2.tlog/CL.write.1.tlog
