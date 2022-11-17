@@ -359,7 +359,7 @@ static void DrawSTRIP_BUSAssignment(LPT_VMSCTL_STRIPCTX lpobject, HDC dc)
 	}
 }
 
-static void DrawSTRIP_Slider(LPT_VMSCTL_STRIPCTX lpobject, HDC dc, long nuVisibleSlider, float dBValue, long fAssigned)
+static void DrawSTRIP_Slider(LPT_VMSCTL_STRIPCTX lpobject, HDC dc, long nuVisibleSlider, float dBValue)
 {
 	LPT_VMSCTL_STRIPPARAM lpp;
 	HDC dcmem;
@@ -394,25 +394,16 @@ static void DrawSTRIP_Slider(LPT_VMSCTL_STRIPCTX lpobject, HDC dc, long nuVisibl
 
 	x_middle = (rect.left+rect.right)>>1;
 	lpp = &(lpobject->param);
-	SetTextColor(dc, lpobject->param.assignbus_color);
 	//define slider color according level
-	if (fAssigned != 0) {
-
-		if (dBValue > 0.0f)
-		{
-			sliderpen = lpp->slider_pen_red;
-			sliderbrush = lpp->slider_brush_red;
-		}
-		else
-		{
-			sliderpen = lpp->slider_pen_green;
-			sliderbrush = lpp->slider_brush_green;
-		}
+	if (dBValue > 0.0f)
+	{
+		sliderpen = lpp->slider_pen_red;
+		sliderbrush = lpp->slider_brush_red;
 	}
 	else
 	{
-		sliderpen = lpp->assignbus_pen;
-		sliderbrush = lpp->assignbus_color;
+		sliderpen = lpp->slider_pen_green;
+		sliderbrush = lpp->slider_brush_green;
 	}
 	//compute slider horizontal position
 	if (dBValue > lpp->vmax) dBValue=lpp->vmax;
@@ -469,7 +460,7 @@ static void DrawSTRIP_AllSliders(LPT_VMSCTL_STRIPCTX lpobject, HDC dc)
 	{
 		if ((lpdata->strip_assignmentbit[vi] & 0x10) != 0)
 		{
-			DrawSTRIP_Slider(lpobject, dc, nuVisibleSlider, lpdata->strip_gain[vi], (long)(lpdata->strip_assignmentbit[vi] & 0x0F));
+			DrawSTRIP_Slider(lpobject, dc, nuVisibleSlider, lpdata->strip_gain[vi]);			
 			nuVisibleSlider++;
 		}
 	}
@@ -602,9 +593,7 @@ static long VMSCTL_Strip_ManageLButtonDown(LPT_VMSCTL_STRIPCTX lpobject, HWND hw
 		}
 		lpobject->param.lpCallback(lpobject->param.lpuser, lpobject->Ident, nuCtl, fValue);
 		dc=GetDC(hw);
-		DrawSTRIP_BUSAssignmentButton(lpobject, dc, nuVisibleSlider, (long)(fValue), lpdata->strip_pBUSNameList[iStrip]);		
-		//need to redraw the slider here
-		DrawSTRIP_Slider(lpobject, dc, nuVisibleSlider, lpdata->strip_gain[iStrip], (long)(lpdata->strip_assignmentbit[iStrip] & 0x0F));
+		DrawSTRIP_BUSAssignmentButton(lpobject, dc, nuVisibleSlider, (long)(fValue), lpdata->strip_pBUSNameList[iStrip]);			
 		ReleaseDC(hw,dc);
 		return 0;
 	}
@@ -639,11 +628,8 @@ static long VMSCTL_Strip_ManageLButtonDown(LPT_VMSCTL_STRIPCTX lpobject, HWND hw
 
 static long VMSCTL_Strip_ManageLButtonDbclick(LPT_VMSCTL_STRIPCTX lpobject, HWND hw, long x0, long y0)
 {
-	LPT_VMSCTL_STRIP_DATA lpdata;
 	HDC dc;
 	float fValue;
-	//long vi;
-	lpdata = &(lpobject->data);
 	long nuCtl, iStrip, nuVisibleSlider;
 	nuCtl=VMSCTL_Strip_WhereAmI(lpobject,x0, y0);
 	if (nuCtl == 0) return 0;
@@ -659,7 +645,7 @@ static long VMSCTL_Strip_ManageLButtonDbclick(LPT_VMSCTL_STRIPCTX lpobject, HWND
 		lpobject->param.lpCallback(lpobject->param.lpuser, lpobject->Ident, nuCtl, fValue);
 
 		dc=GetDC(hw);
-		DrawSTRIP_Slider(lpobject, dc, nuVisibleSlider, lpdata->strip_gain[iStrip], (long)(lpdata->strip_assignmentbit[iStrip] & 0x0F));
+		DrawSTRIP_Slider(lpobject, dc, nuVisibleSlider, fValue);
 		ReleaseDC(hw,dc);
 		return 0;
 	}
@@ -670,9 +656,6 @@ static long VMSCTL_Strip_ManageLButtonDbclick(LPT_VMSCTL_STRIPCTX lpobject, HWND
 
 static long VMSCTL_Strip_ManageMouseMove(LPT_VMSCTL_STRIPCTX lpobject, HWND hw, long x0, long y0)
 {
-	//long vi;
-	LPT_VMSCTL_STRIP_DATA lpdata;
-	lpdata = &(lpobject->data);
 	HDC dc;
 	LPT_VMSCTL_STRIPPARAM lpp;
 	long dy,ddy, nuCtl, iStrip, nuVisibleSlider;
@@ -698,7 +681,7 @@ static long VMSCTL_Strip_ManageMouseMove(LPT_VMSCTL_STRIPCTX lpobject, HWND hw, 
 
 				nuVisibleSlider = nuCtl - VMSCTL_STRIP_ID_GAIN;
 				dc=GetDC(hw);
-				DrawSTRIP_Slider(lpobject, dc, nuVisibleSlider, fValue, (long)(lpdata->strip_assignmentbit[iStrip] & 0x0F));
+				DrawSTRIP_Slider(lpobject, dc, nuVisibleSlider, fValue);
 				ReleaseDC(hw,dc);
 			}
 			lpobject->last_y0 = y0;
@@ -894,8 +877,6 @@ long VMSCTL_PositionSTRIP(HWND hw, long x0,long y0, long dx, long dy, long fShow
 
 long VMSCTL_SetDataSTRIP(HWND hw, LPT_VMSCTL_STRIP_DATA pData, long fUpdateAll)
 {
-	LPT_VMSCTL_STRIP_DATA lpdata;
-	//lpdata = &(lpobject->data);
 	BOOL fUpdateMuteDisplay;
 	long vi,nuVisibleSlider;
 	BOOL fBusChanged, fAssignChanged, fGainChanged; 
@@ -962,7 +943,7 @@ long VMSCTL_SetDataSTRIP(HWND hw, LPT_VMSCTL_STRIP_DATA pData, long fUpdateAll)
 			if ((fBusChanged == TRUE) || (fGainChanged == TRUE)) 
 			{
 				pCurrent->strip_gain[vi] = pData->strip_gain[vi];
-				DrawSTRIP_Slider(lpobject, dc, nuVisibleSlider, pCurrent->strip_gain[vi], (long)(pData->strip_assignmentbit[vi] & 0x0F));
+				DrawSTRIP_Slider(lpobject, dc, nuVisibleSlider, pCurrent->strip_gain[vi]);
 			}
 			nuVisibleSlider++;
 		}
@@ -1221,8 +1202,8 @@ static void DrawBUS_PeakMeters(LPT_VMSCTL_BUSCTX lpobject, HDC dc)
 	oldfont = (HFONT)SelectObject(dc,lpobject->param.font0);
 	oldpen = (HPEN)SelectObject(dc,GetStockObject(NULL_PEN));
 	oldbrush = (HBRUSH)SelectObject(dc,GetStockObject(BLACK_BRUSH));
-	xgreen = (long)(((-36.0f - dBmin) * dx)/ (dBmax - dBmin)); //changed from -24 to make yellow larger
-	xred = (long)(((-12.0f - dBmin) * dx)/ (dBmax - dBmin)); //changed from 0 to make red larger
+	xgreen = (long)(((-24.0f - dBmin) * dx)/ (dBmax - dBmin));
+	xred = (long)(((0.0f - dBmin) * dx)/ (dBmax - dBmin));
 	lpp = &(lpobject->param);
 
 	for (nu=0;nu<nbMeter; nu++)
@@ -1283,7 +1264,7 @@ static void DrawBUS_PeakMeters(LPT_VMSCTL_BUSCTX lpobject, HDC dc)
 }
 
 
-static void DrawBUS_Slider(LPT_VMSCTL_BUSCTX lpobject, HDC dc, long fAssigned)
+static void DrawBUS_Slider(LPT_VMSCTL_BUSCTX lpobject, HDC dc)
 {
 	HDC dcmem;
 	char sss[64];
@@ -1318,8 +1299,6 @@ static void DrawBUS_Slider(LPT_VMSCTL_BUSCTX lpobject, HDC dc, long fAssigned)
 	y_middle = (rect.bottom+rect.top)>>1;
 	lpp = &(lpobject->param);
 	dBValue = lpobject->data.bus_gain;
-
-	/*
 	//define slider color according level
 	if (dBValue > 0.0f)
 	{
@@ -1331,27 +1310,6 @@ static void DrawBUS_Slider(LPT_VMSCTL_BUSCTX lpobject, HDC dc, long fAssigned)
 		sliderpen = lpp->slider_pen_green;
 		sliderbrush = lpp->slider_brush_green;
 	}
-	*/
-	SetTextColor(dc, lpobject->param.assignbus_color);
-	if (fAssigned != 0) {
-
-		if (dBValue > 0.0f)
-		{
-			sliderpen = lpp->slider_pen_red;
-			sliderbrush = lpp->slider_brush_red;
-		}
-		else
-		{
-			sliderpen = lpp->slider_pen_green;
-			sliderbrush = lpp->slider_brush_green;
-		}
-	}
-	else
-	{
-		sliderpen = lpp->assignbus_pen;
-		sliderbrush = lpp->assignbus_color;
-	}
-
 	//compute slider horizontal position
 	xx = (long)(((dBValue - lpp->vmin) * (dx - cursor_width))/ (lpp->vmax - lpp->vmin));
 	if (xx < 0) xx=0;
@@ -1454,13 +1412,11 @@ static void ComputeBusDisplayData(LPT_VMSCTL_BUSCTX lpobject)
 
 static void DrawBUS(LPT_VMSCTL_BUSCTX lpobject, HDC dc)
 {
-	PT_VMSCTL_STRIP_DATA lpdata;
-	lpdata = &(lpobject->data);
 	ComputeBusDisplayData(lpobject);
 	DrawBUS_NickNameMute(lpobject, dc);
 	DrawBUS_Name(lpobject, dc);
 	DrawBUS_PeakMetersBkg(lpobject, dc);
-	DrawBUS_Slider(lpobject, dc, lpdata->strip_assignmentbit);
+	DrawBUS_Slider(lpobject, dc);
 	DrawBUS_Monitor(lpobject, dc);
 }
 
@@ -1549,8 +1505,6 @@ static long VMSCTL_Bus_ManageLButtonDown(LPT_VMSCTL_BUSCTX lpobject, HWND hw, lo
 static long VMSCTL_Bus_ManageLButtonDbclick(LPT_VMSCTL_BUSCTX lpobject, HWND hw, long x0, long y0)
 {
 	HDC dc;
-	LPT_VMSCTL_STRIP_DATA lpdata;
-	lpdata = &(lpobject->data);
 	float fValue;
 	long nuCtl;
 	nuCtl=VMSCTL_Bus_WhereAmI(lpobject,x0, y0);
@@ -1565,7 +1519,7 @@ static long VMSCTL_Bus_ManageLButtonDbclick(LPT_VMSCTL_BUSCTX lpobject, HWND hw,
 		lpobject->param.lpCallback(lpobject->param.lpuser, lpobject->Ident, nuCtl, fValue);
 
 		dc=GetDC(hw);
-		DrawBUS_Slider(lpobject, dc, lpdata->strip_assignmentbit);
+		DrawBUS_Slider(lpobject, dc);
 		ReleaseDC(hw,dc);
 		break;
 	//otherwise we consider it as a simple click
@@ -1580,8 +1534,6 @@ static long VMSCTL_Bus_ManageLButtonDbclick(LPT_VMSCTL_BUSCTX lpobject, HWND hw,
 static long VMSCTL_Bus_ManageMouseMove(LPT_VMSCTL_BUSCTX lpobject, HWND hw, long x0, long y0)
 {
 	HDC dc;
-	LPT_VMSCTL_STRIP_DATA lpdata;
-	lpdata = &(lpobject->data);
 	LPT_VMSCTL_BUSPARAM lpp;
 	long dx,ddx, nuCtl;
 	float fValue;
@@ -1605,7 +1557,7 @@ static long VMSCTL_Bus_ManageMouseMove(LPT_VMSCTL_BUSCTX lpobject, HWND hw, long
 				lpobject->param.lpCallback(lpobject->param.lpuser, lpobject->Ident, nuCtl, fValue);
 
 				dc=GetDC(hw);
-				DrawBUS_Slider(lpobject, dc, lpdata->strip_assignmentbit);
+				DrawBUS_Slider(lpobject, dc);
 				ReleaseDC(hw,dc);
 			}
 			lpobject->last_x0 = x0;
@@ -1806,8 +1758,6 @@ long VMSCTL_SetDataBUS(HWND hw, LPT_VMSCTL_BUS_DATA pData, long fUpdateAll)
 	HDC dc=NULL;
 	LPT_VMSCTL_BUS_DATA pCurrent;
 	LPT_VMSCTL_BUSCTX lpobject;
-	//LPT_VMSCTL_BUS_DATA lpdata = &(lpobject->data);
-
 	lpobject=(LPT_VMSCTL_BUSCTX)TOOL_RecallPointerFromWindow(hw);
 	if (lpobject == NULL) return -1;	
 	if (pData == NULL) return -2;
@@ -1840,7 +1790,7 @@ long VMSCTL_SetDataBUS(HWND hw, LPT_VMSCTL_BUS_DATA pData, long fUpdateAll)
 		if ((lpobject->mouseCapture == FALSE) || (fUpdateAll != 0))
 		{
 			pCurrent->bus_gain = pData->bus_gain;
-			DrawBUS_Slider(lpobject, dc, 1);
+			DrawBUS_Slider(lpobject, dc);
 		}
 	}
 	if ((pCurrent->bus_mute != pData->bus_mute) || (fUpdateMuteDisplay == TRUE) || (fUpdateAll != 0))
@@ -1971,3 +1921,4 @@ void VMSCTL_EndLib(void)
 	UnregisterClass(VMSCTL_CLASSNAME_STRIP,G_hinstance);
 	UnregisterClass(VMSCTL_CLASSNAME_BUS,G_hinstance);
 }
+
